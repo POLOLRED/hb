@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎧 Поздравление</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #000000, #264b63, #0073ff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            padding: 0px;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            color: rgb(255, 255, 255);
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 36px;
+            background: linear-gradient(0deg, #ffd000, #ffd000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 3D Кнопка */
+        .btn-3d {
+            padding: 125px 70px;
+            font-size: 42px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(145deg, #ff0000, #ff3333);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1.4;
+            
+            box-shadow: 
+                0 20px 0 #cc5555,
+                0 25px 40px rgba(0,0,0,0.5),
+                inset 0 -10px 25px rgba(255,255,255,0.3),
+                inset 0 10px 25px rgba(255,255,255,0.3);
+            
+            transition: all 0.15s ease;
+            position: relative;
+            top: 0;
+            margin: 20px 0;
+        }
+
+        .btn-3d:hover {
+            background: linear-gradient(145deg, #ff7b7b, #ff9e9e);
+            transform: translateY(-5px);
+        }
+
+        .btn-3d:active {
+            top: 20px;
+            transform: translateY(0);
+            box-shadow: 
+                0 0 0 #cc5555,
+                0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .loading {
+            color: white;
+            font-size: 22px;
+            margin: 30px 0;
+            display: none;
+        }
+
+        .player {
+            margin-top: 40px;
+            display: none;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 400px;
+            height: 60px;
+            border-radius: 30px;
+        }
+
+        .instructions {
+            color: white;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>С Днём Рождения!<br>
+        Увеличьте громкость<br>
+        Доверься
+        </h1>
+        <button class="btn-3d" onclick="playSound()" id="playButton">
+            🎉🎉🎉🎉🎉<br>
+            прослушать поздравление<br>
+            🎉🎉🎉🎉🎉
+        </button>
+        
+        <div class="loading" id="loading">
+            Загружаю поздравление...
+        </div>
+        
+        <div class="player" id="player">
+            <audio id="audioPlayer" controls autoplay>
+                Ваш браузер не поддерживает аудио
+            </audio>
+            <div class="instructions">
+                🔊 Увеличьте громкость
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function playSound() {
+            const button = document.getElementById('playButton');
+            const loading = document.getElementById('loading');
+            const player = document.getElementById('player');
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            // Прямая ссылка на RAW файл в GitHub
+            const audioUrl = 'https://raw.githubusercontent.com/POLOLRED/Happy-birthday/main/music-VEED.mp3';
+            
+            // Показываем загрузку
+            button.classList.add('hidden');
+            loading.classList.remove('hidden');
+            
+            // Устанавливаем источник и запускаем
+            audioPlayer.src = audioUrl;
+            audioPlayer.load();
+            
+            // Пытаемся запустить автоматически
+            const playPromise = audioPlayer.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Успешное автовоспроизведение
+                    loading.classList.add('hidden');
+                    player.classList.remove('hidden');
+                }).catch(error => {
+                    // Автовоспроизведение заблокировано
+                    loading.classList.add('hidden');
+                    player.classList.remove('hidden');
+                    console.log('Нажмите PLAY для запуска');
+                });
+            }
+            
+            // Обработка ошибок
+            audioPlayer.addEventListener('error', function(e) {
+                loading.innerHTML = '❌ Ошибка загрузки. Попробуйте обновить страницу.';
+                console.error('Audio error:', e);
+            });
+        }
+    </script>
+</body>
+</html>
